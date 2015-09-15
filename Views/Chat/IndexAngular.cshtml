@@ -1,0 +1,44 @@
+﻿@{
+    Script.Require("jQuery_SignalR_Hubs").AtHead();
+    
+    Script.Require("Angular_SignalR");
+    Script.Require("AngularJS_Sanitize");
+
+    
+    // App
+    Script.Include("Chat/ChatService.js").AtFoot();
+    Script.Include("Chat/ChatController.js").AtFoot();
+    Script.Include("Chat/ChatApp.js").AtFoot();
+}
+
+<div class="chat-wrapper" data-ng-app="chatApp" data-ng-controller="chatCtrl as chat">
+    <!-- rooms -->
+    <div>
+        <span data-ng-repeat="room in chat.rooms">{{ room.name }}</span>
+    </div>
+    <!-- message form -->
+    <div>
+        <input type="text" 
+               data-ng-model="chat.newMessage"
+               required />
+        <button data-ng-click="chat.sendMessage()">@T("Send")</button>
+    </div>
+    <!-- message list -->
+    <div class="chat-messages">
+        <ul>
+            <li data-ng-repeat="message in chat.messages">
+                <p data-ng-bind-html="message.text"></p>
+            </li>
+        </ul>
+    </div>
+    <!-- users -->
+    <div class="chat-users">
+        <ul>
+            <li data-ng-repeat="user in chat.currentRoom.users">
+                <span data-ng-click="chat.atUser(user.id)">
+                    {{ user.name }}
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
